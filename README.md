@@ -10,9 +10,9 @@ $$
 $$
 
 where:
-- \(a(x)\) is the diffusion coefficient generated from a random Fourier field.
-- \(f(x)\) is a constant forcing function throughout the domain.
-- \(u(x)\) is the solution field to be learned.
+- $a(x)$ is the diffusion coefficient generated from a random Fourier field.
+- $f(x)$ is a constant forcing function throughout the domain.
+- $u(x)$ is the solution field to be learned.
 
 ### Boundary Condition
 
