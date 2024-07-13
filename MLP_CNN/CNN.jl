@@ -3,13 +3,6 @@ module ConvNN
 export CNN
 
 using Flux, NNlib
-using ConfParser
-
-conf = ConfParse("CNN_config.ini")
-parse_conf!(conf)
-
-hidden_dim = parse(Int32, retrieve(conf, "Architecture", "hidden_dim"))
-activation = retrieve(conf, "Architecture", "activation")
 
 struct CNN
     encoder 
@@ -17,17 +10,19 @@ struct CNN
 end
 
 # Activation mapping
-act_fcn = Dict(
+act_map = Dict(
     "relu" => NNlib.relu,
     "leakyrelu" => NNlib.leakyrelu,
     "tanh" => NNlib.hardtanh,
     "sigmoid" => NNlib.hardsigmoid,
     "swish" => NNlib.hardswish,
     "gelu" => NNlib.gelu
-)[activation]
+)
 
 function CNN(in_channels::Int, out_channels::Int)
-    phi = act_fcn
+    activation = get(ENV, "activation", "relu")
+    hidden_dim = parse(Int32, get(ENV, "hidden_dim", "64"))
+    phi = act_map[activation]
 
     encoder = Chain(
         Conv((3, 3), in_channels => 2 * hidden_dim, phi; pad=1),
