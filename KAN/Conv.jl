@@ -47,9 +47,10 @@ function KAN_conv2D(matrix, kernel, kernel_size, stride=1, dilation=0, padding=0
 
     for channel in 1:n_channels
         conv_groups = unfold(matrix[:, :, channel:channel, :], (kernel_size, kernel_size); stride, padding, dilation)
-        conv_groups = reshape(conv_groups, kernel_size^2, h_out * w_out, batch_size)
-        for b in 1:batch_size
-            matrix_out[:, :, channel, b] = kernel(conv_groups[:, :, b])
+        conv_groups = reshape(conv_groups, kernel_size * kernel_size, h_out * w_out, batch_size)
+        
+        for batch in 1:batch_size
+            matrix_out[:, :, channel, batch] = kernel(conv_groups[:, :, batch])
         end
     end
 
@@ -58,15 +59,15 @@ end
 
 function add_padding(matrix, padding=0)
     n, m, n_channels, batch_size = size(matrix)
-    matrix_padded = CUDA.zeros(n + 2 * padding[1], m + 2 * padding[2], n_channels, batch_size)
-    matrix_padded[padding[1] + 1:end - padding[1], padding[2] + 1:end - padding[2], :, :] = matrix
+    matrix_padded = CUDA.zeros(n + 2 * padding, m + 2 * padding, n_channels, batch_size)
+    matrix_padded[padding + 1:end - padding, padding + 1:end - padding, :, :] = matrix
     return matrix_padded
 end
 
 # Test functions
 matrix = rand(32, 32, 3, 1) |> gpu
 kernel_size = (3, 3)
-kernel = KANdense(prod(kernel_size), 1, "Morlet", "relu")
+kernel = KANdense(prod(kernel_size), 1, "Morlet", "relu") |> gpu
 stride = 1
 dilation = 1
 padding = 1
