@@ -14,7 +14,8 @@ MODEL_NAME = "FNO"
 
 model_file = Dict(
     "CNN" => "MLP_CNN/logs/trained_models/model_1.bson",
-    "FNO" => "MLP_FNO/logs/trained_models/model_1.bson"
+    "FNO" => "MLP_FNO/logs/trained_models/model_1.bson",
+    "KAN_CNN" => "wavKAN_CNN/logs/trained_models/model_1.bson"
 )[MODEL_NAME]
 
 # Load the model
