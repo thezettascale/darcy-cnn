@@ -11,7 +11,13 @@ The MLP models were developed in a [previous side project](https://github.com/Pr
 
 ## Wavelets
 
-
+<p align="center">
+  <img src="KAN/wavelets/animations/DerivativeOfGaussian.gif" width="30%" />
+    <img src="KAN/wavelets/animations/MexicanHat.gif" width="30%" />
+    <img src="KAN/wavelets/animations/Meyer.gif" width="30%" />
+    <img src="KAN/wavelets/animations/Morlet.gif" width="30%" />
+    <img src="KAN/wavelets/animations/Shannon.gif" width="30%" />
+</p>
 
 ## Problem and Data - 2D Darcy Flow
 
