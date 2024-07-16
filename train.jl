@@ -21,7 +21,7 @@ using .hyperparams: set_hyperparams
 
 NUM_REPETITIONS = 5
 
-model_name = "KAN_CNN"
+model_name = "CNN"
 hparams = set_hyperparams(model_name)
 batch_size = parse(Int, get(ENV, "batch_size", "32"))
 learning_rate = parse(Float32, get(ENV, "LR", "1e-3"))

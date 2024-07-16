@@ -36,7 +36,7 @@ function objective(trial)
     ENV["hidden_dim"] = hidden_dim
     ENV["batch_size"] = b_size
 
-    num_epochs = 50
+    num_epochs = 100
 
     train_loader, test_loader = get_darcy_loader(b_size)
 
@@ -66,11 +66,11 @@ end
 space = Scenario(
     step_rate = 10:40,
     gamma = (0.5..0.9),
-    learning_rate = (1e-6..1e-1),
-    min_lr = (1e-6..1e-1),
+    learning_rate = (1e-4..1e-2),
+    min_lr = (1e-6..1e-2),
     activation = ["relu", "selu", "leakyrelu", "swish", "gelu"],
-    hidden_dim = 2:300,
-    b_size = 1:40,
+    hidden_dim = 2:100,
+    b_size = 1:30,
     verbose = true,
     max_trials = 100,
     pruner = MedianPruner(),
