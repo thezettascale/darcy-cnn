@@ -50,7 +50,7 @@ function objective(trial)
     ENV["batch_size"] = b_size
     ENV["norm"] = norm
 
-    num_epochs = 50
+    num_epochs = 100
 
     train_loader, test_loader = get_darcy_loader(b_size)
 
@@ -88,9 +88,9 @@ wavelet_list = ["MexicanHat", "DerivativeOfGaussian", "Morlet"]
 space = Scenario(
     step_rate = 10:40,
     gamma = (0.5..0.9),
-    learning_rate = (1e-6..1e-1),
-    min_lr = (1e-6..1e-1),
-    hidden_dim = 2:170,
+    learning_rate = (1e-4..1e-2),
+    min_lr = (1e-6..1e-2),
+    hidden_dim = 2:100,
     b_size = 1:30,
     encoder_wav_one = wavelet_list,
     encoder_wav_two = wavelet_list,
@@ -106,7 +106,7 @@ space = Scenario(
     decoder_activation_two = activation_list,
     decoder_activation_three = activation_list,
     decoder_activation_four = activation_list,
-    norm = [true, false],
+    norm = [false, false],
     verbose = true,
     max_trials = 100,
     pruner = MedianPruner(),
