@@ -10,7 +10,7 @@ using .loaders: get_darcy_loader
 
 train_loader, test_loader = get_darcy_loader(1)
 
-MODEL_NAME = "FNO"
+MODEL_NAME = "CNN"
 
 model_file = Dict(
     "CNN" => "MLP_CNN/logs/trained_models/model_1.bson",
