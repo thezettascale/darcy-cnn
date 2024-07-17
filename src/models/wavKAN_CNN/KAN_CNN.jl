@@ -2,7 +2,7 @@ module KAN_Convolution
 
 export KAN_CNN
 
-include("../../KAN/KAN_layers.jl")
+include("../../waveletKAN/KAN_layers.jl")
 
 using Flux, NNlib
 using .layers: KAN_Conv, KAN_ConvTranspose
