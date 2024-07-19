@@ -51,7 +51,7 @@ struct KANdense_layer
     norm_permute
 end
 
-function KANdense(input_size, output_size, wavelet_name, base_activation, norm=false)
+function KANdense(input_size::Int64, output_size::Int64, wavelet_name, base_activation, norm=false)
     wavelet_weights = Flux.kaiming_uniform(input_size, output_size)
     wavelet = wavelet_mapping[wavelet_name](wavelet_weights)
     activation = act_mapping[base_activation]
@@ -99,7 +99,7 @@ struct KAN_Convolution
     norm
 end
 
-function KAN_Conv(in_channels, out_channels, kernel_size, wavelet, base_activation, stride=1, dilation=0, padding=0, norm=false)
+function KAN_Conv(in_channels::Int64, out_channels::Int64, kernel_size, wavelet, base_activation, stride=1, dilation=0, padding=0, norm=false)
     dense_kernel = KANdense(prod(kernel_size)*in_channels, out_channels, wavelet, base_activation, norm)
     return KAN_Convolution(dense_kernel, kernel_size, stride, dilation, padding, norm)
 end
@@ -120,7 +120,7 @@ struct KAN_ConvolutionTranspose
     norm
 end
 
-function KAN_ConvTranspose(in_channels, out_channels, kernel_size, wavelet, base_activation, stride=1, dilation=0, padding=0, norm=false)
+function KAN_ConvTranspose(in_channels::Int64, out_channels::Int64, kernel_size, wavelet, base_activation, stride=1, dilation=0, padding=0, norm=false)
     dense_kernel = KANdense(prod(kernel_size)*in_channels, out_channels, wavelet, base_activation, norm)
     return KAN_ConvolutionTranspose(dense_kernel, kernel_size, stride, dilation, padding, norm)
 end
