@@ -2,6 +2,8 @@ module KAN_Convolution
 
 export KAN_CNN
 
+ENV["2D"] = true
+
 include("../../waveletKAN/KAN_layers.jl")
 
 using Flux, NNlib
@@ -23,7 +25,7 @@ struct wavKAN_CNN
 end
 
 function KAN_CNN(in_channels::Int, out_channels::Int, encoder_wav_names, encoder_activations, decoder_wav_names, decoder_activations)
-    hidden_dim = parse(Int32, get(ENV, "hidden_dim", "64"))
+    hidden_dim = parse(Int32, get(ENV, "hidden_dim", "40"))
     norm = parse(Bool, get(ENV, "norm", "false"))
 
     encoder_list = [
@@ -55,9 +57,3 @@ end
 Flux.@functor wavKAN_CNN 
 
 end
-
-
-
-
-
-    
