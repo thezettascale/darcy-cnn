@@ -50,7 +50,9 @@ julia predict_flow.jl
 
 ## Results
 
-The wavelet KAN CNN model with a hidden dimension of only 5 outperformed an MLP CNN with a hidden dimension of 90. The wavelet KAN seems superior to the MLP in this context. However, it did not surpass the MLP FNO, which is expected given the FNO's suitability for predicting 2D Darcy Flow. A wavelet KAN FNO was not implemented in this comparison, it would be interesting to see how it compares to the MLP FNO.
+The wavelet KAN CNN model with a hidden dimension of only 5 outperformed an MLP CNN with a hidden dimension of 90 in terms of generalisation capacity, (despite achieving a higher train loss). The 2D Darcy Flow dataset is a scientific problem that often incurs overfitting, therefore wavelet KAN seems superior to the MLP in this context. It is more proficient at learning the true solution operator of the problem, and generalise well to unseen data.
+
+However, it did not surpass the MLP FNO, which is expected given the FNO's suitability for predicting 2D Darcy Flow. A wavelet KAN FNO was not implemented in this comparison - it would be interesting to see how it compares against the MLP FNO.
 
 ### Predictions
 <p align="center">
