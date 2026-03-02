@@ -1,0 +1,4 @@
+data/2D_DarcyFlow_Data/*.mat filter=lfs diff=lfs merge=lfs -text
+figures/*.png filter=lfs diff=lfs merge=lfs -text
+figures/*.gif filter=lfs diff=lfs merge=lfs -text
+logs/*/trained_models/*.jld2 filter=lfs diff=lfs merge=lfs -text
