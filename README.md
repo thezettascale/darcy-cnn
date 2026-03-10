@@ -2,7 +2,7 @@
 
 MLP and Wavelet KAN implementations of the CNN and Fourier Neural Operator (FNO) in Julia, applied to the 2D Darcy Flow problem (diffusion coefficient to solution field mapping).
 
-Built with [Lux.jl](https://github.com/LuxDL/Lux.jl) and [Reactant.jl](https://github.com/EnzymeAD/Reactant.jl).
+Built with [Lux.jl](https://github.com/LuxDL/Lux.jl) and [Reactant.jl](https://github.com/EnzymeAD/Reactant.jl). To be benchmarked on XPUs, [stay tuned](https://zscc.ai/).
 
 ## Usage
 
