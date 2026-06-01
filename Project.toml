@@ -4,7 +4,6 @@ version = "0.1.0"
 [deps]
 AbstractFFTs = "621f4979-c628-5d54-868e-fcf4e3e8185c"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
 ConfParser = "88353bc9-fd38-507d-a820-d3b43837d6b9"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
@@ -26,7 +25,6 @@ ProgressBars = "49802e3a-d2f1-5c88-81d8-b72133a6f568"
 PythonPlot = "274fc56d-3b97-40fa-a1cd-1b4a50311bf9"
 Reactant = "3c362404-f566-11ee-1572-e11a4b42c853"
 Runic = "62bfec6d-59d7-401d-8490-b29ee721c001"
-cuDNN = "02a925ec-e4fe-4b08-9a7e-0d78e3d38ccd"
 
 [compat]
 julia = "1.11"

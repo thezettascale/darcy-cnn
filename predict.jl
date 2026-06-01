@@ -2,6 +2,7 @@ include("src/WavKANConv.jl")
 
 using .WavKANConv
 using Lux
+using Random
 using Reactant
 using JLD2
 using Plots; pythonplot()
@@ -14,7 +15,7 @@ dev = reactant_device()
 train_loader, test_loader = get_darcy_loader(1; dev = dev)
 
 model = create_model(cfg)
-rng = Lux.default_rng()
+rng = Random.default_rng()
 _, st = Lux.setup(rng, model)
 
 model_file = joinpath("logs", model_name, "trained_models", "model_1.jld2")

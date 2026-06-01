@@ -17,7 +17,7 @@ cfg = load_config(model_name)
 dev = reactant_device()
 
 train_loader, test_loader = get_darcy_loader(cfg.batch_size; dev = dev)
-rng = Lux.default_rng()
+rng = Random.default_rng()
 
 log_dir = joinpath("logs", model_name)
 model_dir = joinpath(log_dir, "trained_models")

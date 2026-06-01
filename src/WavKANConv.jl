@@ -5,7 +5,6 @@ using Lux: Training
 using NNlib
 using Optimisers
 using Random: AbstractRNG
-using Lux.Training: AutoEnzyme
 using Reactant: @compile
 using FFTW
 using AbstractFFTs: rfft, irfft
