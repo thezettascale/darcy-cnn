@@ -2,10 +2,11 @@ function step_decay(epoch, lr, step, decay, min_lr)
     return max(lr * decay^(epoch / step), min_lr)
 end
 
-function compile_eval(model, ps, st, test_loader)
-    (x_first, _) = first(test_loader)
+function compile_eval(model, ps, st, test_loader, loss_fn)
+    (x_first, y_first) = first(test_loader)
     st_test = Lux.testmode(st)
-    return @compile model(x_first, ps, st_test)
+    eval_loss(ps, st, x, y) = loss_fn(model(x, ps, st)[1], y)
+    return @compile eval_loss(ps, st_test, x_first, y_first)
 end
 
 function train_epoch(
@@ -24,13 +25,12 @@ function train_epoch(
         _, loss_val, _, train_state = Training.single_train_step!(
             AutoEnzyme(), objective, (x, y), train_state,
         )
-        train_loss += loss_val
+        train_loss += Float32(loss_val)
     end
 
     st_test = Lux.testmode(train_state.states)
     for (x, y) in test_loader
-        y_pred, _ = eval_fwd(x, train_state.parameters, st_test)
-        test_loss += loss_fn(y_pred, y)
+        test_loss += eval_fwd(train_state.parameters, st_test, x, y) |> Float32
     end
 
     new_lr = step_decay(epoch, cfg.learning_rate, cfg.step_rate, cfg.gamma, cfg.min_lr)
