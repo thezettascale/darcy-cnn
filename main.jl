@@ -1,3 +1,5 @@
+ENV["TF_GPU_ALLOCATOR"] = get(ENV, "TF_GPU_ALLOCATOR", "cuda_malloc_async")
+
 include("src/WavKANConv.jl")
 
 using .WavKANConv
