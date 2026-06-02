@@ -1,8 +1,28 @@
 include("../src/WavKANConv.jl")
 using .WavKANConv
 using Lux, Random, Test
+using Lux: Training
+using Optimisers
+using Reactant
+using MLDataDevices: reactant_device
 
 const RNG = Xoshiro(0)
+const DEV = reactant_device()
+
+function _train_step(model, ps, st, x, y)
+    ps = ps |> DEV
+    st = st |> DEV
+    x = x |> DEV
+    y = y |> DEV
+    train_state = Training.TrainState(model, ps, st, Optimisers.Adam(1.0f-3))
+    objective(model, ps, st, (x, y)) = (loss_fcn(model(x, ps, st)[1], y), st, (;))
+    _, loss, _, train_state = Training.single_train_step!(
+        AutoEnzyme(), objective, (x, y), train_state,
+    )
+    eval_fwd = @compile model(x, train_state.parameters, Lux.testmode(train_state.states))
+    y_pred, _ = eval_fwd(x, train_state.parameters, Lux.testmode(train_state.states))
+    return loss, y_pred
+end
 
 @testset "Wavelets" begin
     for name in keys(WavKANConv.WAVELET_MAP)
@@ -85,4 +105,44 @@ end
     x = randn(Float32, 32, 32, 1, 2)
     out, _ = model(x, ps, st)
     @test size(out) == (32, 32, 1, 2)
+end
+
+@testset "CNN train step" begin
+    cfg = CNNConfig(2, "relu", 1.0f-3, 10, 0.8f0, 1.0f-5, 2, 1, 2.0f0)
+    model = create_model(cfg)
+    ps, st = Lux.setup(RNG, model)
+    x = randn(Float32, 16, 16, 1, 2)
+    y = randn(Float32, 16, 16, 1, 2)
+    loss, y_pred = _train_step(model, ps, st, x, y)
+    @test isfinite(loss)
+    @test size(y_pred) == size(y)
+end
+
+@testset "FNO train step" begin
+    cfg = FNOConfig(16, 4, 4, 2, "gelu", 1.0f-3, 10, 0.8f0, 1.0f-4, 2, 1, 2.0f0)
+    model = create_model(cfg)
+    ps, st = Lux.setup(RNG, model)
+    x = randn(Float32, 16, 16, 1, 2)
+    y = randn(Float32, 16, 16, 1, 2)
+    loss, y_pred = _train_step(model, ps, st, x, y)
+    @test isfinite(loss)
+    @test size(y_pred) == size(y)
+end
+
+@testset "KANCNN train step" begin
+    cfg = KANCNNConfig(
+        2, false,
+        ["Morlet", "MexicanHat", "Shannon"],
+        ["relu", "relu", "relu"],
+        ["Morlet", "MexicanHat", "Shannon", "Meyer"],
+        ["relu", "relu", "relu", "relu"],
+        1.0f-3, 10, 0.8f0, 1.0f-5, 2, 1, 2.0f0,
+    )
+    model = create_model(cfg)
+    ps, st = Lux.setup(RNG, model)
+    x = randn(Float32, 16, 16, 1, 2)
+    y = randn(Float32, 16, 16, 1, 2)
+    loss, y_pred = _train_step(model, ps, st, x, y)
+    @test isfinite(loss)
+    @test size(y_pred) == size(y)
 end
